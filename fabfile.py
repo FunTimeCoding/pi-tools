@@ -1,27 +1,32 @@
-from fabric.api import run, execute, task, env
+from fabric.api import run, execute, task, env, sudo, hide
 from fabric.utils import error
 import re
 env.user = 'pi'
 env.no_keys = True
 # env.key_filename = '/path/to/keyfile.pem'
-grep_filter = '| grep -v "Reading database"'
+
+
+@task
+def system_update():
+    """Upgrade the system."""
+    sudo('apt-get -qq update')
+    sudo('apt-get -qqy upgrade')
 
 
 @task
 def basic_setup():
-    """Upgrade system and install basic tools."""
-    run('sudo apt-get -qq update')
-    run('sudo apt-get -qqy upgrade')
-    packages = 'htop vim-nox avahi-daemon tmux bc',
-    run('sudo apt-get -qqy install %s %s' % packages, grep_filter,
-        stdout=None)
+    """Install basic tools. This executes the system_update task first."""
+    execute(system_update)
+    with hide('stdout'):
+        sudo('apt-get -qqy install htop vim-nox avahi-daemon tmux bc')
 
 
 @task
 def audio_setup():
-    """Executes basic_setup first, then installs audio tools."""
-    execute(basic_setup)
-    run('sudo apt-get -qqy install sox %s' % grep_filter, stdout=None)
+    """Install audio tools. This executes the system_update task first."""
+    execute(system_update)
+    with hide('stdout'):
+        sudo('apt-get -qqy install sox')
 
 
 @task
