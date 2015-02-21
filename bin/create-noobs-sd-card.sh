@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 SCRIPT_DIR="$(cd $(dirname ${0}); pwd)"
 WORK_DIR="${SCRIPT_DIR}/../local"

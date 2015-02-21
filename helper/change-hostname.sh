@@ -1,11 +1,13 @@
 #!/bin/sh -e
 
 usage () {
-    echo "usage : ${0} NEW_HOSTNAME"
-    exit 1
+    echo "usage: ${0} NEW_HOSTNAME"
 }
 
-[ -z $1 ] && usage
+if [ "${1}" = "" ]; then
+    usage
+    exit 1
+fi
 
 OLD_HOSTNAME=`hostname`
 NEW_HOSTNAME="${1}"
