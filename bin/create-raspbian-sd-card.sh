@@ -1,11 +1,14 @@
 #!/bin/sh
 
-ZIP="raspbian.zip"
+SCRIPT_DIR="$(cd $(dirname ${0}); pwd)"
+WORK_DIR="${SCRIPT_DIR}/../local"
+
+ZIP="${WORK_DIR}/raspbian.zip"
 if [ ! -f "${ZIP}" ]; then
     wget http://downloads.raspberrypi.org/raspbian_latest -O ${ZIP}
 fi
 
-IMG="raspbian.img"
+IMG="${WORK_DIR}/raspbian.img"
 if [ ! -f "${IMG}" ]; then
     unzip ${ZIP} -d ${IMG}
 fi

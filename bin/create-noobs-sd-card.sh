@@ -1,12 +1,15 @@
 #!/bin/sh
 
-ZIP="noobs.zip"
+SCRIPT_DIR="$(cd $(dirname ${0}); pwd)"
+WORK_DIR="${SCRIPT_DIR}/../local"
+
+ZIP="${WORK_DIR}/noobs.zip"
 if [ ! -f "${ZIP}" ]; then
     #wget http://downloads.raspberrypi.org/NOOBS_latest -O ${ZIP}
     wget http://downloads.raspberrypi.org/NOOBS_lite_latest -O ${ZIP}
 fi
 
-DIR="noobs"
+DIR="${WORK_DIR}/noobs"
 if [ ! -d "${DIR}" ]; then
     unzip ${ZIP} -d ${DIR}
 fi
