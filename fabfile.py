@@ -37,7 +37,7 @@ def change_hostname(new_hostname=''):
         print('Usage: change_hostname:hydrogen')
     elif is_valid_hostname(new_hostname):
         put(
-            local_path='change-hostname.sh',
+            local_path='helper/change-hostname.sh',
             remote_path='change-hostname.sh',
             mode='0755'
         )
@@ -53,7 +53,7 @@ def update_hosts_file(fqdn):
         print('Usage: update_hosts_file:example.org')
     elif is_valid_hostname(fqdn):
         put(
-            local_path='update-hosts-file.sh',
+            local_path='helper/update-hosts-file.sh',
             remote_path='update-hosts-file.sh',
             mode='0755'
         )
