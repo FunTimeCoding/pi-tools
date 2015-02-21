@@ -1,20 +1,34 @@
 # pi-tools
 
-
-## Setup
-
 Most example commands contain the variable `$HOST`, thus making it easy to define the target IP or hostname in front.
 
 ```sh
-HOST=192.168.1.100 fab -u pi -k -H $HOST basic_setup
+HOST=192.168.1.100 fab -H $HOST basic_setup
 ```
 
 
-Copy your SSH key to the new pi.
+## Setup
+
+Copy your SSH public key to a remote host.
 
 ```sh
 ssh-copy-id -i pi@$HOST
 ```
+
+Run initial setup on a remote host.
+
+```sh
+fab -H $HOST basic_setup
+```
+
+Change the hostname on a remote host.
+
+```sh
+fab -H $HOST change_hostname:hydrogen
+```
+
+
+## Fabric usage
 
 List available commands.
 
@@ -22,20 +36,14 @@ List available commands.
 fab -l
 ```
 
-Run initial setup on a new pi.
+Run a task as a different user, in this case as `shiin`.
 
 ```sh
-fab -u pi -k -H $HOST basic_setup
-```
-
-Run a command which takes an argument.
-
-```sh
-fab -u pi -k -H $HOST change_hostname:hydrogen
+fab -u shiin example_task
 ```
 
 Run an arbitrary command.
 
 ```sy
-fab -u pi -k -H $HOST -- hostname
+fab -- hostname
 ```
