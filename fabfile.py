@@ -4,14 +4,24 @@ import re
 env.user = 'pi'
 env.no_keys = True
 # env.key_filename = '/path/to/keyfile.pem'
+grep_filter = '| grep -v "Reading database"'
 
 
 @task
 def basic_setup():
     """Upgrade system and install basic tools."""
-    run('sudo apt-get update')
-    run('sudo apt-get upgrade')
-    run('sudo apt-get install -y htop vim-nox avahi-daemon tmux bc')
+    run('sudo apt-get -qq update')
+    run('sudo apt-get -qqy upgrade')
+    packages = 'htop vim-nox avahi-daemon tmux bc',
+    run('sudo apt-get -qqy install %s %s' % packages, grep_filter,
+        stdout=None)
+
+
+@task
+def audio_setup():
+    """Executes basic_setup first, then installs audio tools."""
+    execute(basic_setup)
+    run('sudo apt-get -qqy install sox %s' % grep_filter, stdout=None)
 
 
 @task
@@ -26,13 +36,6 @@ def change_hostname(new_hostname=''):
         change_hostname_script.close()
     else:
         error('Invalid hostname: %s' % new_hostname)
-
-
-@task
-def audio_setup():
-    """Executes basic_setup first, then installs audio tools."""
-    execute(basic_setup)
-    run('sudo apt-get install -y sox')
 
 
 def is_valid_hostname(hostname):
