@@ -1,9 +1,12 @@
-from fabric.api import run, execute, task, env, sudo, hide
+from fabric.api import run, execute, task, sudo, hide, put
 from fabric.utils import error
 import re
-env.user = 'pi'
-env.no_keys = True
-# env.key_filename = '/path/to/keyfile.pem'
+
+
+@task
+def test():
+    """Verify fabric can run on a host."""
+    run('echo "Works."')
 
 
 @task
@@ -35,10 +38,12 @@ def change_hostname(new_hostname=''):
     if new_hostname is '':
         print('Usage: change_hostname:hydrogen')
     elif is_valid_hostname(new_hostname):
-        print('New hostname: %s' % new_hostname)
-        change_hostname_script = open('change-hostname.sh')
-        run(change_hostname_script.read() + ' %s' % new_hostname)
-        change_hostname_script.close()
+        put(
+            local_path='change-hostname.sh',
+            remote_path='change-hostname.sh',
+            mode='0755'
+        )
+        sudo('./change-hostname.sh %s' % new_hostname)
     else:
         error('Invalid hostname: %s' % new_hostname)
 
