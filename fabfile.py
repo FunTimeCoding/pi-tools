@@ -20,21 +20,19 @@ def system_update():
 def basic_setup():
     """Install basic tools. This executes the system_update task first."""
     execute(system_update)
-    with hide('stdout'):
-        sudo('apt-get -qqy install htop vim-nox avahi-daemon tmux bc')
+    install_silently('htop vim-nox avahi-daemon tmux bc')
 
 
 @task
 def audio_setup():
     """Install audio tools. This executes the system_update task first."""
     execute(system_update)
-    with hide('stdout'):
-        sudo('apt-get -qqy install sox')
+    install_silently('sox')
 
 
 @task
 def change_hostname(new_hostname=''):
-    """Change the hostname of the target host."""
+    """Change the hostname."""
     if new_hostname is '':
         print('Usage: change_hostname:hydrogen')
     elif is_valid_hostname(new_hostname):
@@ -46,6 +44,27 @@ def change_hostname(new_hostname=''):
         sudo('./change-hostname.sh %s' % new_hostname)
     else:
         error('Invalid hostname: %s' % new_hostname)
+
+
+@task
+def update_hosts_file(fqdn):
+    """Update the hosts file."""
+    if fqdn is '':
+        print('Usage: update_hosts_file:example.org')
+    elif is_valid_hostname(fqdn):
+        put(
+            local_path='update-hosts-file.sh',
+            remote_path='update-hosts-file.sh',
+            mode='0755'
+        )
+        sudo('./update-hosts-file.sh %s' % fqdn)
+    else:
+        error('Invalid FQDN: %s' % fqdn)
+
+
+def install_silently(packages):
+    with hide('stdout'):
+        sudo('apt-get -qqy install %s' % packages)
 
 
 def is_valid_hostname(hostname):
