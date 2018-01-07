@@ -6,7 +6,7 @@ WORK_DIRECTORY="${SCRIPT_DIRECTORY}/../tmp"
 ARCHIVE="${WORK_DIRECTORY}/raspbian.zip"
 IMAGE="${WORK_DIRECTORY}/raspbian.img"
 HASH=64c4103316efe2a85fd2814f2af16313abac7d4ad68e3d95ae6709e2e894cc1b
-TARGET=disk3
+TARGET=disk2
 
 if [ ! -f "${ARCHIVE}" ]; then
     wget --output-document "${ARCHIVE}" http://downloads.raspberrypi.org/raspbian_latest
