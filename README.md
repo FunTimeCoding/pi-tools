@@ -1,21 +1,29 @@
 # PiTools
 
-## SD card flashing
+## Usage
 
-Install NOOBS on a SD card.
+This section explains how to use this project.
+
+Run the main program.
+
+```sh
+bin/pt
+```
+
+Create a NOOBS secure digital card.
 
 ```sh
 bin/create-noobs-sd-card.sh
 ```
 
-Install raspbian on a SD card.
+Create a raspbian secure digital card.
 
 ```sh
 bin/create-raspbian-sd-card.sh
 ```
 
 
-## Set up a new pi
+### Set up a new Raspberry
 
 Copy your SSH public key.
 
@@ -42,7 +50,7 @@ fab -u pi -H example.org basic_setup
 ```
 
 
-## Fabric usage
+### Fabric
 
 List available commands.
 
@@ -54,4 +62,27 @@ Run an arbitrary command.
 
 ```sy
 fab -- hostname
+```
+
+
+## Development
+
+This section explains how to use scripts that are intended to ease the development of this project.
+
+Install development tools.
+
+```sh
+sudo apt-get install shellcheck
+```
+
+Run style check and show all concerns.
+
+```sh
+./run-style-check.sh
+```
+
+Build the project like Jenkins.
+
+```sh
+./build.sh
 ```
