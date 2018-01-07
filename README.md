@@ -1,4 +1,4 @@
-# pi-tools
+# PiTools
 
 ## SD card flashing
 
