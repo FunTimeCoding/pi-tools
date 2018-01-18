@@ -19,7 +19,7 @@ fi
 
 SYSTEM=$(uname)
 
-if [ "" = Darwin ]; then
+if [ "${SYSTEM}" = Darwin ]; then
     SHA256SUM=gsha256sum
 else
     SHA256SUM=sha256sum
